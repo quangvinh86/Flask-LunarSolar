@@ -1,0 +1,55 @@
+
+.example_wrapper{
+    border-radius: 10px 10px 0px 0px;
+    position: relative;
+    padding: 30px 20px 5px 20px;
+    margin-bottom: 20px;
+    background: rgb(247, 247, 249);
+    margin-top: 40px;
+    border: solid 1px #b3d4fc;
+}
+.example_wrapper_after{
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    display: block;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #b3d4fc;
+    border-radius: 10px;
+    color: #000;
+    font-weight: bold;
+}
+
+.num_example{
+    position: absolute;
+    top: -20px;
+    left: 165px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #b3d4fc;
+    border-radius: 50%;
+    color: #000;
+    text-align: center;
+    font-weight: bold;
+}
+
+.error{
+    display: none;
+    margin-left: 10px;
+}		
+
+.error_show{
+    color: red;
+    margin-left: 10px;
+}
+
+.bogoc
+{
+    border-radius: 15px;
+}

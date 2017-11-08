@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dương lịch - Âm lịch Việt Nam (Lunar calendar - Vietname Solar calendar</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/mystyle.css">
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <!-- JavaScript Code -->
+    <script>
+        $(document).ready(function() {
+            // Button-click-Start
+            $('#btnConvertSolar').click(function(){
+                var label_element=$("#Solar2Lunar");
+                label_element.removeClass("alert alert-success").addClass("error");
+                error_valid = true
+                var input=$('#inputSolarDay').val();
+                var error_element=$("#errorSolarDay");
+                if ((input == "") || (input < 0) || (input > 31))
+                {
+                    error_element.removeClass("error").addClass("error_show");
+                    error_valid = false
+                }    
+                else
+                    error_element.removeClass("error_show").addClass("error");
+                input=$('#inputSolarMonth').val();
+                error_element=$("#errorSolarMonth");
+                if ((input == "") || (input < 0) || (input > 12))
+                {
+                    error_element.removeClass("error").addClass("error_show");
+                    error_valid = false
+                }   
+                else
+                    error_element.removeClass("error_show").addClass("error");
+                
+                input=$('#inputSolarYear').val();
+                error_element=$("#errorSolarYear");
+                if ((input == "") || (input < 0))
+                {
+                    error_element.removeClass("error").addClass("error_show");
+                    error_valid = false
+                }   
+                else
+                    error_element.removeClass("error_show").addClass("error");
+                
+                if (error_valid)
+                {
+                    $.ajax({
+                        url: '/Solar2Lunar',
+                        data: $('form').serialize(),
+                        type: 'POST',
+                        success: function(response){
+                            var _res = response;
+                            var index = _res.indexOf(":");
+                            var _res1 = _res.substring(index + 3, _res.length - 2 )
+                            label_element.empty().append(_res1)
+                            label_element.removeClass("error").addClass("alert alert-success");
+                            console.log(response);
+                        },
+                        error: function(error){
+                            console.log(error);
+                            var _res = response;
+                            var index = _res.indexOf(":");
+                            var _res1 = _res.substring(index + 3, _res.length - 2 )
+                            label_element.empty().append(_res1)
+                            label_element.removeClass("error").addClass("alert alert-danger");
+                        }
+                    });
+                    div_error_element=$("#divError");
+                    div_error_element.removeClass("alart alert-warning").addClass("error");
+                }
+                else
+                {
+                    div_error_element=$("#divError");
+                    div_error_element.removeClass("error").addClass("alart alert-warning");
+                }
+            });
+            // Button-click-end
+
+            //Menu-Start
+            $('.navbar a.dropdown-toggle').on('click', function(e) {
+                    var $el = $(this);
+                    var $parent = $(this).offsetParent(".dropdown-menu");
+                    $(this).parent("li").toggleClass('open');
+                    if(!$parent.parent().hasClass('nav')) {
+                        $el.next().css({"top": $el[0].offsetTop, "left": $parent.outerWidth() - 4});
+                    }
+                    $('.nav li.open').not($(this).parents("li")).removeClass("open");
+                    return false;
+                    });
+                 //Menu-end
+        });
+    </script>
+</head>
+<body>
+     <!-- Menu-Start -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+              <div class="navbar-header">
+                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="#">
+                     <img src="../static/amduong.png" />
+                 </a>
+              </div>
+         
+              <div class="collapse navbar-collapse">
+                 <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Dương - Âm</a></li>
+                    <li><a href="/Lunar2Solar">Âm - Dương</a></li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Chuyển đổi khác<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                           <li><a href="/DayWeek">Ngày trong tuần</a></li>
+                           <li class="divider"></li>
+                           <li><a href="/LeapYear">Năm nhuận</a></li>
+                           <li class="divider"></li>
+                           <li>
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Can chi<b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="/DayCanChi">Ngày Can-Chi</a></li>
+                                  <li><a href="/MonthCanChi">Tháng Can-Chi</a></li>
+                                  <li><a href="/YearCanChi">Năm Can-Chi</a></li>
+                               </ul>
+                           </li>
+                       </ul>
+                   </li>
+                </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Menu-End -->
+    
+    <div class="page-header">
+            <p style="align-content: center; text-align:center; font-size:x-large; font-weight: bold "> 
+                Chuyển đổi lịch Dương - Âm theo lịch âm của Việt Nam (kinh tuyến 105° đông, múi giờ GMT+7) </p>
+    </div>
+    <!-- container -->
+    <div class="container">
+    <form>
+    <!-- Duong - am -->
+        <div class="example_wrapper" id="divLunar2Solar">
+            <!-- Convert solar - Lunar  -->
+            <div class="row well" >
+                <div class="col-sm-12">
+                    <strong>Chuyển dương lịch (dd/mm/yyy) - âm lịch (lịch Việt Nam)</strong>
+                </div>
+            </div>
+            <!-- input -->
+            <div class="row well">
+                <div class="col-sm-2" style="text-align: right; margin-bottom: 0px; padding-top: 5px">
+                    <label style="font-weight: normal;">Ngày dương lịch: </label>
+                </div>
+                <div class="col-sm-1">
+                    <input type="name" name="inputSolarDay" id="inputSolarDay" class="form-control" placeholder="Ngày" required autofocus>
+                </div>
+                <div class="col-sm-1">
+                    <input type="name" name="inputSolarMonth" id="inputSolarMonth" class="form-control" placeholder="Tháng" required autofocus>
+                </div>
+                <div class="col-sm-1">
+                    <input type="name"  name="inputSolarYear" id="inputSolarYear" class="form-control" placeholder="Năm" required autofocus>
+                </div>
+                <div class="col-sm-3">
+                    <button id="btnConvertSolar" class="btn btn-primary btn-block" type="button">Chuyển đổi </button>
+                </div>
+                <div class="col-sm-4" id="divError" class="error">
+                    <span class="error" id="errorSolarDay">Nhập dữ liệu ngày (1-31)</span><br/>
+                    <span class="error" id="errorSolarMonth">Nhập dữ liệu tháng (1-12)</span><br/>
+                    <span class="error" id="errorSolarYear">Nhập dữ liệu năm</span>
+                </div>
+            </div>
+            <!-- input -->
+            <!-- result -->
+            <div class="row">
+                <div class="col-sm-12" id="divSolar">
+                    <label id="Solar2Lunar" class="error"></label>
+                </div>
+            </div>
+            <!-- result -->
+        </div>
+        <!-- Duong - am -->
+    </form>
+    </div>
+    <!-- container -->
+
+</body>
+<footer>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Được tạo bởi Quang Vinh - quangvinh19862003@gmail.com</p>
+            </div>
+        </div>
+        <!-- /.row -->
+        </footer>
+</html>
