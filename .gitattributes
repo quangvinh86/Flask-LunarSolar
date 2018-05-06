@@ -1,5 +1,5 @@
 # .gitattributes
 * linguist-vendored
+*.html linguist-vendored=true
+*.js linguist-vendored=true
 *.py linguist-vendored=false
-*.html linguist-vendored=false
-*.js linguist-vendored=false
